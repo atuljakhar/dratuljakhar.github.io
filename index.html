@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <title>Assistant Professor - Interactive Board</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Chalkboard font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
   <style>
     body {
@@ -90,8 +92,8 @@
       position: relative;
       width: 700px;
       height: 400px;
-      background: #2d3a2e;
-      border: 8px solid #bfa76f;
+      background: #181818;
+      border: 10px solid #6b4f27;
       border-radius: 18px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.18);
       display: flex;
@@ -99,11 +101,16 @@
       justify-content: center;
       overflow: hidden;
       flex-direction: column;
+      /* Blackboard texture effect */
+      background-image:
+        repeating-linear-gradient(120deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 8px),
+        repeating-linear-gradient(60deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 6px),
+        linear-gradient(120deg, #232323 0%, #181818 100%);
     }
     .chalk-math {
       color: #fff;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 1.3rem;
+      font-family: 'Permanent Marker', 'Comic Sans MS', 'Chalkboard', cursive;
+      font-size: 1.4rem;
       white-space: pre-line;
       opacity: 1;
       transition: opacity 0.8s cubic-bezier(.4,2,.6,1);
@@ -112,7 +119,14 @@
       top: 60px;
       z-index: 2;
       pointer-events: none;
-      text-shadow: 0 2px 0 #bfa76f, 0 0 8px #fff8;
+      text-shadow:
+        0 2px 0 #bfa76f,
+        0 0 8px #fff8,
+        1px 1px 0 #222,
+        0 0 6px #fff3;
+      letter-spacing: 1px;
+      /* Chalky effect */
+      filter: blur(0.2px) contrast(1.1);
     }
     .chalk-math.hide {
       opacity: 0;
@@ -124,6 +138,7 @@
       right: 40px;
       bottom: 40px;
       color: #fff;
+      font-family: 'Permanent Marker', 'Comic Sans MS', 'Chalkboard', cursive;
       font-size: 1.2rem;
       opacity: 0;
       pointer-events: none;
@@ -131,7 +146,12 @@
       z-index: 10;
       overflow-y: auto;
       white-space: pre-line;
-      text-shadow: 0 2px 0 #bfa76f, 0 0 8px #fff8;
+      text-shadow:
+        0 2px 0 #bfa76f,
+        0 0 8px #fff8,
+        1px 1px 0 #222,
+        0 0 6px #fff3;
+      filter: blur(0.2px) contrast(1.1);
     }
     .board-content.show {
       opacity: 1;
