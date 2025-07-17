@@ -71,9 +71,9 @@
     }
     .podium-area {
       position: relative;
-      width: 240px;
+      width: 220px;
       min-width: 180px;
-      height: 440px;
+      height: 420px;
       display: flex;
       align-items: flex-end;
       margin-right: 20px;
@@ -82,10 +82,10 @@
     }
     .podium-svg {
       position: absolute;
-      left: 20px;
+      left: 30px;
       bottom: 0;
-      width: 160px;
-      height: 140px;
+      width: 140px;
+      height: 120px;
       z-index: 1;
       pointer-events: none;
       user-select: none;
@@ -93,9 +93,9 @@
     .teacher-img {
       position: absolute;
       left: 60px;
-      bottom: 70px;
-      width: 140px;
-      height: 280px;
+      bottom: 80px;
+      width: 110px;
+      height: 220px;
       object-fit: contain;
       filter: drop-shadow(0 8px 24px #0003);
       user-select: none;
@@ -103,19 +103,6 @@
       background: #fff0;
       border-radius: 12px;
       z-index: 2;
-    }
-    .stick {
-      position: absolute;
-      left: 170px;
-      top: 220px;
-      width: 90px;
-      height: 10px;
-      background: #bfa76f;
-      border-radius: 5px;
-      transform: rotate(-15deg);
-      box-shadow: 0 2px 8px #0002;
-      z-index: 3;
-      display: none; /* Hide stick for podium version */
     }
     .board-area {
       position: relative;
@@ -259,7 +246,6 @@
       .podium-area { width: 120px; height: 220px; margin-right: 0; }
       .podium-svg { width: 70px; height: 60px; left: 10px; }
       .teacher-img { width: 60px; height: 110px; left: 35px; bottom: 30px; }
-      .stick { left: 80px; top: 110px; width: 60px; height: 7px;}
       .board-area { width: 98vw; height: 320px; }
       .sections-top { gap: 10px; }
       .section-btn { padding: 10px 14px; font-size: 1rem;}
@@ -279,15 +265,15 @@
   <div class="main-content">
     <div class="podium-area">
       <!-- Podium SVG -->
-      <svg class="podium-svg" viewBox="0 0 160 140">
+      <svg class="podium-svg" viewBox="0 0 140 120">
         <!-- Podium base -->
-        <rect x="20" y="90" width="120" height="40" rx="10" fill="#bfa76f" stroke="#8d6e3f" stroke-width="4"/>
+        <rect x="10" y="80" width="120" height="30" rx="10" fill="#bfa76f" stroke="#8d6e3f" stroke-width="4"/>
         <!-- Podium body -->
-        <rect x="40" y="30" width="80" height="70" rx="12" fill="#e0b97d" stroke="#8d6e3f" stroke-width="4"/>
+        <rect x="30" y="30" width="80" height="60" rx="12" fill="#e0b97d" stroke="#8d6e3f" stroke-width="4"/>
         <!-- Podium top -->
-        <ellipse cx="80" cy="35" rx="44" ry="15" fill="#bfa76f" stroke="#8d6e3f" stroke-width="4"/>
+        <ellipse cx="70" cy="35" rx="40" ry="12" fill="#bfa76f" stroke="#8d6e3f" stroke-width="4"/>
         <!-- Podium shadow -->
-        <ellipse cx="80" cy="130" rx="50" ry="8" fill="#8d6e3f" opacity="0.2"/>
+        <ellipse cx="70" cy="110" rx="45" ry="7" fill="#8d6e3f" opacity="0.2"/>
       </svg>
       <!-- Teacher clipart (public domain, any teacher) -->
       <img class="teacher-img" src="https://openclipart.org/image/400px/282133" alt="Teacher Clipart">
