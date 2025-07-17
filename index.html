@@ -14,43 +14,15 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-    .classroom {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      position: relative;
-    }
-    .teacher-area {
-      position: relative;
-      width: 160px;
-      height: 420px;
-      display: flex;
-      align-items: flex-end;
-      margin-right: 20px;
-    }
-    .board-area {
-      position: relative;
-      width: 700px;
-      height: 400px;
-      background: #2d3a2e;
-      border: 8px solid #bfa76f;
-      border-radius: 18px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      flex-direction: column;
-    }
     .sections-top {
       display: flex;
       justify-content: center;
       gap: 32px;
       width: 100%;
-      margin-top: 18px;
-      margin-bottom: 10px;
+      margin-top: 32px;
+      margin-bottom: 24px;
       z-index: 10;
+      position: relative;
     }
     .section-btn {
       background: linear-gradient(90deg, #fffbe7 0%, #ffe082 100%);
@@ -77,6 +49,57 @@
       50% { box-shadow: 0 0 32px #ffe082cc, 0 0 24px #fff4;}
       100% { box-shadow: 0 0 16px #ffe08288, 0 0 0 #fff0;}
     }
+    .main-content {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 60vh;
+      width: 100%;
+    }
+    .teacher-area {
+      position: relative;
+      width: 220px;
+      min-width: 180px;
+      height: 420px;
+      display: flex;
+      align-items: flex-end;
+      margin-right: 20px;
+      z-index: 2;
+    }
+    .teacher-img {
+      width: 200px;
+      height: 400px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 24px #0003);
+      user-select: none;
+      pointer-events: none;
+    }
+    .stick {
+      position: absolute;
+      left: 170px;
+      top: 220px;
+      width: 90px;
+      height: 10px;
+      background: #bfa76f;
+      border-radius: 5px;
+      transform: rotate(-15deg);
+      box-shadow: 0 2px 8px #0002;
+      z-index: 3;
+    }
+    .board-area {
+      position: relative;
+      width: 700px;
+      height: 400px;
+      background: #2d3a2e;
+      border: 8px solid #bfa76f;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-direction: column;
+    }
     .chalk-math {
       color: #fff;
       font-family: 'Courier New', Courier, monospace;
@@ -86,7 +109,7 @@
       transition: opacity 0.8s cubic-bezier(.4,2,.6,1);
       position: absolute;
       left: 40px;
-      top: 80px;
+      top: 60px;
       z-index: 2;
       pointer-events: none;
       text-shadow: 0 2px 0 #bfa76f, 0 0 8px #fff8;
@@ -97,7 +120,7 @@
     .board-content {
       position: absolute;
       left: 40px;
-      top: 80px;
+      top: 60px;
       right: 40px;
       bottom: 40px;
       color: #fff;
@@ -119,16 +142,11 @@
       0% { opacity: 0; transform: translateY(30px);}
       100% { opacity: 1; transform: translateY(0);}
     }
-    /* Teacher SVG styling */
-    .teacher-svg {
-      width: 160px;
-      height: 420px;
-      display: block;
-    }
     @media (max-width: 900px) {
-      .classroom { flex-direction: column; }
-      .teacher-area { width: 90px; height: 220px; margin-right: 0; }
-      .teacher-svg { width: 90px; height: 220px; }
+      .main-content { flex-direction: column; align-items: center; }
+      .teacher-area { width: 120px; height: 220px; margin-right: 0; }
+      .teacher-img { width: 100px; height: 180px; }
+      .stick { left: 80px; top: 110px; width: 60px; height: 7px;}
       .board-area { width: 98vw; height: 320px; }
       .sections-top { gap: 10px; }
       .section-btn { padding: 10px 14px; font-size: 1rem;}
@@ -136,42 +154,19 @@
   </style>
 </head>
 <body>
-  <div class="classroom">
+  <div class="sections-top">
+    <button class="section-btn" onclick="showSection('about')">About Me</button>
+    <button class="section-btn" onclick="showSection('teaching')">Teaching</button>
+    <button class="section-btn" onclick="showSection('research')">Research</button>
+    <button class="section-btn" onclick="showSection('education')">Education</button>
+  </div>
+  <div class="main-content">
     <div class="teacher-area">
-      <!-- Cartoon teacher SVG with stick pointing to board -->
-      <svg class="teacher-svg" viewBox="0 0 160 420" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Body -->
-        <ellipse cx="80" cy="340" rx="55" ry="60" fill="#ffe082" stroke="#bfa76f" stroke-width="6"/>
-        <!-- Head -->
-        <ellipse cx="80" cy="170" rx="60" ry="70" fill="#ffe082" stroke="#bfa76f" stroke-width="6"/>
-        <!-- Eyes -->
-        <ellipse cx="60" cy="160" rx="8" ry="12" fill="#fff"/>
-        <ellipse cx="100" cy="160" rx="8" ry="12" fill="#fff"/>
-        <ellipse cx="60" cy="163" rx="3" ry="5" fill="#222"/>
-        <ellipse cx="100" cy="163" rx="3" ry="5" fill="#222"/>
-        <!-- Smile -->
-        <path d="M65 190 Q80 205 95 190" stroke="#bfa76f" stroke-width="4" fill="none"/>
-        <!-- Left arm (down) -->
-        <rect x="20" y="250" width="18" height="80" rx="9" fill="#ffe082" stroke="#bfa76f" stroke-width="4" transform="rotate(-10 20 250)"/>
-        <!-- Right arm (up, holding stick) -->
-        <rect x="122" y="250" width="18" height="80" rx="9" fill="#ffe082" stroke="#bfa76f" stroke-width="4" transform="rotate(25 122 250)"/>
-        <!-- Stick -->
-        <rect x="140" y="220" width="8" height="120" rx="4" fill="#bfa76f" stroke="#bfa76f" stroke-width="2" transform="rotate(25 140 220)"/>
-        <!-- Shirt collar -->
-        <polygon points="70,220 90,220 80,240" fill="#fffbe7"/>
-        <!-- Glasses -->
-        <ellipse cx="60" cy="160" rx="12" ry="14" fill="none" stroke="#bfa76f" stroke-width="2"/>
-        <ellipse cx="100" cy="160" rx="12" ry="14" fill="none" stroke="#bfa76f" stroke-width="2"/>
-        <rect x="72" y="160" width="16" height="2" fill="#bfa76f"/>
-      </svg>
+      <!-- Free-to-use teacher clipart from OpenClipart (public domain) -->
+      <img class="teacher-img" src="https://openclipart.org/image/400px/336927" alt="Teacher Clipart">
+      <div class="stick"></div>
     </div>
     <div class="board-area">
-      <div class="sections-top">
-        <button class="section-btn" onclick="showSection('about')">About Me</button>
-        <button class="section-btn" onclick="showSection('teaching')">Teaching</button>
-        <button class="section-btn" onclick="showSection('research')">Research</button>
-        <button class="section-btn" onclick="showSection('education')">Education</button>
-      </div>
       <div class="chalk-math" id="chalkMath">
         { n ∈ ℕ : ∃ a, b ∈ ℤ, n = a² + b² }
         π(x) ~ x / log(x)
