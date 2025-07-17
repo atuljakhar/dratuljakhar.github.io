@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Dr. Atul Jakhar</title>
+  <title>Assistant Professor - Interactive Board</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Chalkboard font from Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
@@ -14,10 +14,8 @@
       min-height: 100vh;
       font-family: 'Montserrat', sans-serif;
       overflow-x: hidden;
-      /* Classroom wall background using a free seamless classroom wall texture */
       background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80') no-repeat center center fixed;
       background-size: cover;
-      /* fallback color */
       background-color: #e0eafc;
     }
     .bg-overlay {
@@ -88,6 +86,8 @@
       filter: drop-shadow(0 8px 24px #0003);
       user-select: none;
       pointer-events: none;
+      background: #fff0;
+      border-radius: 12px;
     }
     .stick {
       position: absolute;
@@ -114,7 +114,6 @@
       justify-content: center;
       overflow: hidden;
       flex-direction: column;
-      /* Blackboard texture effect */
       background-image:
         repeating-linear-gradient(120deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 8px),
         repeating-linear-gradient(60deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 6px),
@@ -132,7 +131,6 @@
       top: 60px;
       z-index: 2;
       pointer-events: none;
-      /* No glow, no shine, just a subtle chalk look */
       text-shadow:
         1px 1px 0 #222,
         -1px -1px 0 #222,
@@ -158,7 +156,6 @@
       z-index: 10;
       overflow-y: auto;
       white-space: pre-line;
-      /* No glow, no shine, just a subtle chalk look */
       text-shadow:
         1px 1px 0 #222,
         -1px -1px 0 #222,
@@ -195,8 +192,8 @@
   </div>
   <div class="main-content">
     <div class="teacher-area">
-      <!-- Free-to-use teacher clipart from OpenClipart (public domain) -->
-      <img class="teacher-img" src="https://openclipart.org/image/400px/336927" alt="Teacher Clipart">
+      <!-- Teacher clipart (public domain, any teacher) -->
+      <img class="teacher-img" src="https://openclipart.org/image/400px/282133" alt="Teacher Clipart">
       <div class="stick"></div>
     </div>
     <div class="board-area">
@@ -213,18 +210,19 @@
     const chalkMath = document.getElementById('chalkMath');
     const boardContent = document.getElementById('boardContent');
     const sections = {
-      about: `👋 Hello! I'm Dr. Atul Jakhar, Assistant Professor of Mathematics.
+      about: `👋 Hello! I'm Dr. A. Sharma, Assistant Professor of Mathematics.
 I am passionate about teaching, research, and inspiring students to explore the beauty of numbers and logic.
 My interests include Number Theory, Algebra, and Mathematical Problem Solving.`,
       education: `🎓 Education
-- Ph.D. in Mathematics, Central University of Rajasthan
-- Int. M.Sc. in Mathematics, Central University of Rajasthan`,
+- Ph.D. in Mathematics, IIT Delhi
+- M.Sc. in Mathematics, University of Delhi
+- B.Sc. (Hons) in Mathematics, University of Delhi`,
       teaching: `📚 Teaching
 I teach undergraduate and postgraduate courses in:
-- Introduction to Differential Equations
-- Partial differential equations
-- COV and I.E.
-- Research Methodology. 
+- Number Theory
+- Abstract Algebra
+- Real Analysis
+- Discrete Mathematics
 I believe in interactive, example-driven learning and encourage students to ask questions!`,
       research: `🔬 Research
 My research focuses on:
