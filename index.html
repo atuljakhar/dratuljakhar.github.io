@@ -118,17 +118,17 @@
         repeating-linear-gradient(120deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 8px),
         repeating-linear-gradient(60deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 6px),
         linear-gradient(120deg, #232323 0%, #181818 100%);
+      overflow: hidden;
     }
-    .chalk-math {
+    .chalk-math, .board-content {
       color: #fff;
       font-family: 'Permanent Marker', 'Comic Sans MS', 'Chalkboard', cursive;
-      font-size: 1.4rem;
       white-space: pre-line;
-      opacity: 1;
-      transition: opacity 0.8s cubic-bezier(.4,2,.6,1);
       position: absolute;
       left: 40px;
       top: 60px;
+      right: 40px;
+      bottom: 40px;
       z-index: 2;
       pointer-events: none;
       text-shadow:
@@ -137,30 +137,22 @@
         0.5px 0.5px 0 #222;
       letter-spacing: 1px;
       filter: none;
+      font-size: 1.3rem;
+      opacity: 1;
+      transition: opacity 0.8s cubic-bezier(.4,2,.6,1);
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
     }
-    .chalk-math.hide {
+    .chalk-math.hide, .board-content.hide {
       opacity: 0;
+      transition: opacity 0.3s cubic-bezier(.4,2,.6,1);
     }
     .board-content {
-      position: absolute;
-      left: 40px;
-      top: 60px;
-      right: 40px;
-      bottom: 40px;
-      color: #fff;
-      font-family: 'Permanent Marker', 'Comic Sans MS', 'Chalkboard', cursive;
-      font-size: 1.2rem;
       opacity: 0;
       pointer-events: none;
+      z-index: 3;
       transition: opacity 0.7s cubic-bezier(.4,2,.6,1);
-      z-index: 10;
-      overflow-y: auto;
-      white-space: pre-line;
-      text-shadow:
-        1px 1px 0 #222,
-        -1px -1px 0 #222,
-        0.5px 0.5px 0 #222;
-      filter: none;
     }
     .board-content.show {
       opacity: 1;
@@ -171,6 +163,31 @@
       0% { opacity: 0; transform: translateY(30px);}
       100% { opacity: 1; transform: translateY(0);}
     }
+    /* Erase animation overlay */
+    .erase-overlay {
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      width: 100%; height: 100%;
+      background: repeating-linear-gradient(
+        90deg,
+        #181818 0px, #181818 30px,
+        #232323 30px, #232323 60px
+      );
+      z-index: 10;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      animation: none;
+    }
+    .erase-overlay.active {
+      opacity: 1;
+      animation: eraseWipe 0.7s cubic-bezier(.4,2,.6,1) forwards;
+    }
+    @keyframes eraseWipe {
+      0% { clip-path: inset(0 100% 0 0); }
+      80% { clip-path: inset(0 0 0 0); }
+      100% { opacity: 0; clip-path: inset(0 0 0 0);}
+    }
     @media (max-width: 900px) {
       .main-content { flex-direction: column; align-items: center; }
       .teacher-area { width: 120px; height: 220px; margin-right: 0; }
@@ -179,6 +196,7 @@
       .board-area { width: 98vw; height: 320px; }
       .sections-top { gap: 10px; }
       .section-btn { padding: 10px 14px; font-size: 1rem;}
+      .chalk-math, .board-content { font-size: 1rem; left: 20px; right: 20px; top: 30px; bottom: 20px;}
     }
   </style>
 </head>
@@ -204,11 +222,14 @@
         φ(n) = n ∏_{p|n} (1 - 1/p)
       </div>
       <div class="board-content" id="boardContent"></div>
+      <div class="erase-overlay" id="eraseOverlay"></div>
     </div>
   </div>
   <script>
     const chalkMath = document.getElementById('chalkMath');
     const boardContent = document.getElementById('boardContent');
+    const eraseOverlay = document.getElementById('eraseOverlay');
+    let currentSection = null;
     const sections = {
       about: `👋 Hello! I'm Dr. A. Sharma, Assistant Professor of Mathematics.
 I am passionate about teaching, research, and inspiring students to explore the beauty of numbers and logic.
@@ -232,13 +253,35 @@ My research focuses on:
 - Applications of Number Theory in Cryptography
 I have published in leading journals and regularly present at international conferences.`
     };
+
     function showSection(section) {
+      if (currentSection === section) return;
+      // Hide both contents
       chalkMath.classList.add('hide');
-      boardContent.innerText = sections[section];
+      boardContent.classList.remove('show');
+      boardContent.classList.add('hide');
+      // Start erase animation
+      eraseOverlay.classList.remove('active');
+      void eraseOverlay.offsetWidth; // force reflow for restart
+      eraseOverlay.classList.add('active');
       setTimeout(() => {
+        // After erase, show new content
+        boardContent.innerText = sections[section];
+        boardContent.classList.remove('hide');
         boardContent.classList.add('show');
-      }, 400);
+        chalkMath.classList.add('hide');
+        eraseOverlay.classList.remove('active');
+        currentSection = section;
+      }, 700);
     }
+
+    // On first load, show chalkMath
+    window.onload = function() {
+      chalkMath.classList.remove('hide');
+      boardContent.classList.remove('show');
+      boardContent.classList.add('hide');
+      currentSection = null;
+    };
   </script>
 </body>
 </html>
