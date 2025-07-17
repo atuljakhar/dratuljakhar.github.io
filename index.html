@@ -3,9 +3,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Atul Jakhar - Card Style Website</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Atul Jakhar - Personal Website</title>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
     :root {
       --primary: #ff4e50;
@@ -16,150 +17,253 @@
       --card-bg: #fff;
       --shadow: 0 4px 24px rgba(0,0,0,0.08);
     }
-    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'Montserrat', Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
+      min-height: 100vh;
     }
-    header {
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      color: #fff;
-      padding: 3rem 1rem 2rem 1rem;
-      text-align: center;
-      box-shadow: var(--shadow);
-    }
-    header h1 {
-      margin: 0 0 0.5rem 0;
-      font-size: 2.8rem;
-      letter-spacing: 2px;
-    }
-    header p {
-      margin: 0.5rem 0 0 0;
-      font-size: 1.3rem;
-      font-weight: 400;
-    }
-    nav {
-      margin: 2rem 0 0 0;
+    .container {
       display: flex;
-      justify-content: center;
-      gap: 2rem;
+      min-height: 100vh;
     }
-    nav a {
+    .sidebar {
+      width: 320px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.1rem;
-      transition: color 0.2s;
-    }
-    nav a:hover {
-      color: var(--accent);
-    }
-    main {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-    section {
-      background: var(--card-bg);
-      border-radius: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem 1rem 1rem;
       box-shadow: var(--shadow);
-      margin-bottom: 2rem;
-      padding: 2rem;
-      transition: transform 0.2s;
-    }
-    section:hover {
-      transform: translateY(-4px) scale(1.01);
-    }
-    h2 {
-      color: var(--primary);
-      margin-top: 0;
-      font-size: 2rem;
+      z-index: 2;
     }
     .profile-img {
-      width: 140px;
-      height: 140px;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
       object-fit: cover;
-      border: 5px solid var(--accent);
+      border: 4px solid var(--accent);
       margin-bottom: 1rem;
       box-shadow: var(--shadow);
     }
-    .socials {
+    .sidebar h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+    .sidebar p {
+      margin: 0 0 1.5rem 0;
+      font-size: 1.1rem;
+      font-weight: 400;
+      text-align: center;
+    }
+    .nav-sections {
+      width: 100%;
       margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .nav-sections button {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 0.8rem 1rem;
+      border-radius: 0.7rem;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.2s, color 0.2s;
+      outline: none;
+      position: relative;
+    }
+    .nav-sections button.active,
+    .nav-sections button:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+    .socials {
+      margin-top: 2rem;
       display: flex;
       gap: 1.2rem;
       justify-content: center;
     }
     .socials a {
-      color: var(--secondary);
-      font-size: 1.7rem;
+      color: #fff;
+      font-size: 1.5rem;
       transition: color 0.2s;
     }
     .socials a:hover {
-      color: var(--primary);
+      color: var(--accent);
     }
-    ul {
-      padding-left: 1.2rem;
+    .main-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      padding: 2rem;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-content {
+      width: 100%;
+      max-width: 700px;
+      min-height: 350px;
+      background: var(--card-bg);
+      border-radius: 1.2rem;
+      box-shadow: var(--shadow);
+      padding: 2.5rem 2rem;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      transform: rotateY(90deg);
+      transition: 
+        opacity 0.5s cubic-bezier(.77,0,.18,1),
+        transform 0.7s cubic-bezier(.77,0,.18,1);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .card-content.active {
+      opacity: 1;
+      transform: rotateY(0deg);
+      pointer-events: auto;
+      z-index: 2;
+    }
+    .card-content h2 {
+      color: var(--primary);
+      margin-top: 0;
+      font-size: 2rem;
+    }
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 1rem;
+        box-shadow: none;
+      }
+      .profile-img {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 0;
+        margin-right: 1rem;
+      }
+      .sidebar h1, .sidebar p {
+        font-size: 1rem;
+        margin: 0 0.5rem 0 0;
+      }
+      .nav-sections {
+        flex-direction: row;
+        gap: 0.3rem;
+        margin-top: 0;
+      }
+      .nav-sections button {
+        font-size: 0.95rem;
+        padding: 0.5rem 0.7rem;
+      }
+      .socials {
+        margin-top: 0.5rem;
+        gap: 0.7rem;
+      }
+      .main-content {
+        padding: 1rem;
+      }
+      .card-content {
+        padding: 1.2rem 0.7rem;
+        min-height: 200px;
+      }
     }
     @media (max-width: 600px) {
-      header h1 { font-size: 2rem; }
-      main { padding: 0; }
-      section { padding: 1rem; }
+      .main-content {
+        padding: 0.2rem;
+      }
+      .card-content {
+        padding: 0.7rem 0.2rem;
+      }
     }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-  <header>
-    <img src="https://avatars.githubusercontent.com/u/your-github-id" alt="Atul Jakhar" class="profile-img">
-    <h1>Atul Jakhar</h1>
-    <p>Assistant Professor | Data Science | Researcher | Speaker</p>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#research">Research</a>
-      <a href="#teaching">Teaching</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <div class="socials">
-      <a href="https://github.com/atuljakhar" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-      <a href="https://www.linkedin.com/in/atuljakhar" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-      <a href="mailto:atul.jakhar@dsu.edu.in" title="Email"><i class="fas fa-envelope"></i></a>
-    </div>
-  </header>
-  <main>
-    <section id="about">
-      <h2>About Me</h2>
-      <p>
-        I am an Assistant Professor at Dayananda Sagar University, Bengaluru, specializing in Data Science, Machine Learning, and Artificial Intelligence. My research interests include deep learning, computer vision, and natural language processing. I am passionate about teaching, mentoring, and contributing to the academic community.
-      </p>
-    </section>
-    <section id="research">
-      <h2>Research</h2>
-      <ul>
-        <li><strong>Deep Learning for Medical Imaging</strong> – Published in IEEE Xplore, 2023</li>
-        <li><strong>Natural Language Processing for Indian Languages</strong> – Springer, 2022</li>
-        <li><strong>AI in Education</strong> – Ongoing project</li>
-      </ul>
-    </section>
-    <section id="teaching">
-      <h2>Teaching</h2>
-      <ul>
-        <li>Data Science & Machine Learning (B.Tech, M.Tech)</li>
-        <li>Python Programming</li>
-        <li>Artificial Intelligence</li>
-        <li>Mentor for student research projects</li>
-      </ul>
-    </section>
-    <section id="contact">
-      <h2>Contact</h2>
-      <p>
-        <strong>Email:</strong> <a href="mailto:atul.jakhar@dsu.edu.in">atul.jakhar@dsu.edu.in</a><br>
-        <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/atuljakhar" target="_blank">atuljakhar</a><br>
-        <strong>GitHub:</strong> <a href="https://github.com/atuljakhar" target="_blank">atuljakhar</a>
-      </p>
-    </section>
-  </main>
+  <div class="container">
+    <aside class="sidebar">
+      <img src="https://avatars.githubusercontent.com/u/your-github-id" alt="Atul Jakhar" class="profile-img">
+      <div>
+        <h1>Atul Jakhar</h1>
+        <p>Assistant Professor<br>Data Science | Researcher</p>
+      </div>
+      <nav class="nav-sections">
+        <button class="active" data-section="about">About</button>
+        <button data-section="research">Research</button>
+        <button data-section="teaching">Teaching</button>
+        <button data-section="contact">Contact</button>
+      </nav>
+      <div class="socials">
+        <a href="https://github.com/atuljakhar" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/atuljakhar" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:atul.jakhar@dsu.edu.in" title="Email"><i class="fas fa-envelope"></i></a>
+      </div>
+    </aside>
+    <main class="main-content">
+      <section class="card-content active" id="about">
+        <h2>About Me</h2>
+        <p>
+          I am an Assistant Professor at Dayananda Sagar University, Bengaluru, specializing in Data Science, Machine Learning, and Artificial Intelligence. My research interests include deep learning, computer vision, and natural language processing. I am passionate about teaching, mentoring, and contributing to the academic community.
+        </p>
+      </section>
+      <section class="card-content" id="research">
+        <h2>Research</h2>
+        <ul>
+          <li><strong>Deep Learning for Medical Imaging</strong> – Published in IEEE Xplore, 2023</li>
+          <li><strong>Natural Language Processing for Indian Languages</strong> – Springer, 2022</li>
+          <li><strong>AI in Education</strong> – Ongoing project</li>
+        </ul>
+      </section>
+      <section class="card-content" id="teaching">
+        <h2>Teaching</h2>
+        <ul>
+          <li>Data Science & Machine Learning (B.Tech, M.Tech)</li>
+          <li>Python Programming</li>
+          <li>Artificial Intelligence</li>
+          <li>Mentor for student research projects</li>
+        </ul>
+      </section>
+      <section class="card-content" id="contact">
+        <h2>Contact</h2>
+        <p>
+          <strong>Email:</strong> <a href="mailto:atul.jakhar@dsu.edu.in">atul.jakhar@dsu.edu.in</a><br>
+          <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/atuljakhar" target="_blank">atuljakhar</a><br>
+          <strong>GitHub:</strong> <a href="https://github.com/atuljakhar" target="_blank">atuljakhar</a>
+        </p>
+      </section>
+    </main>
+  </div>
+  <script>
+    // Card navigation logic
+    const navButtons = document.querySelectorAll('.nav-sections button');
+    const cards = document.querySelectorAll('.card-content');
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        navButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        cards.forEach(card => {
+          if (card.id === btn.dataset.section) {
+            card.classList.add('active');
+          } else {
+            card.classList.remove('active');
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
