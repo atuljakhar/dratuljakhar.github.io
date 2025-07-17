@@ -1,108 +1,165 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dr. Atul Jakhar | Portfolio</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="https://dratuljakhar.github.io/assets/img/profile.jpg">
+  <title>Atul Jakhar - Personal Website</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #ff4e50;
+      --secondary: #1e90ff;
+      --accent: #f9d423;
+      --bg: #f5f6fa;
+      --text: #222;
+      --card-bg: #fff;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    header {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: #fff;
+      padding: 3rem 1rem 2rem 1rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    header h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2.8rem;
+      letter-spacing: 2px;
+    }
+    header p {
+      margin: 0.5rem 0 0 0;
+      font-size: 1.3rem;
+      font-weight: 400;
+    }
+    nav {
+      margin: 2rem 0 0 0;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: var(--accent);
+    }
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    section {
+      background: var(--card-bg);
+      border-radius: 1rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      padding: 2rem;
+      transition: transform 0.2s;
+    }
+    section:hover {
+      transform: translateY(-4px) scale(1.01);
+    }
+    h2 {
+      color: var(--primary);
+      margin-top: 0;
+      font-size: 2rem;
+    }
+    .profile-img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid var(--accent);
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow);
+    }
+    .socials {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+    }
+    .socials a {
+      color: var(--secondary);
+      font-size: 1.7rem;
+      transition: color 0.2s;
+    }
+    .socials a:hover {
+      color: var(--primary);
+    }
+    ul {
+      padding-left: 1.2rem;
+    }
+    @media (max-width: 600px) {
+      header h1 { font-size: 2rem; }
+      main { padding: 0; }
+      section { padding: 1rem; }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
   <header>
-    <div class="container nav-container">
-      <div class="logo">
-        <span class="logo-text">Atul Jakhar</span>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#publications">Publications</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
+    <img src="https://avatars.githubusercontent.com/u/your-github-id" alt="Atul Jakhar" class="profile-img">
+    <h1>Atul Jakhar</h1>
+    <p>Assistant Professor | Data Science | Researcher | Speaker</p>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="socials">
+      <a href="https://github.com/atuljakhar" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/atuljakhar" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="mailto:atul.jakhar@dsu.edu.in" title="Email"><i class="fas fa-envelope"></i></a>
     </div>
   </header>
   <main>
-    <section class="hero">
-      <div class="container hero-content">
-        <img src="https://dratuljakhar.github.io/assets/img/profile.jpg" alt="Dr. Atul Jakhar" class="profile-img">
-        <div>
-          <h1>Dr. Atul Jakhar</h1>
-          <p class="subtitle">AI Researcher | Data Scientist | Educator</p>
-          <p>Welcome to my portfolio! I am passionate about Artificial Intelligence, Data Science, and sharing knowledge through research and teaching.</p>
-          <a href="#contact" class="cta-btn">Get in Touch</a>
-        </div>
-      </div>
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        I am an Assistant Professor at Dayananda Sagar University, Bengaluru, specializing in Data Science, Machine Learning, and Artificial Intelligence. My research interests include deep learning, computer vision, and natural language processing. I am passionate about teaching, mentoring, and contributing to the academic community.
+      </p>
     </section>
-    <section id="about" class="section">
-      <div class="container">
-        <h2>About Me</h2>
-        <p>
-          I am an Assistant Professor at the Department of Computer Science, University of Delhi. My research interests include Machine Learning, Deep Learning, and Natural Language Processing. I have published several papers in reputed journals and conferences, and I enjoy mentoring students and collaborating on innovative projects.
-        </p>
-      </div>
+    <section id="research">
+      <h2>Research</h2>
+      <ul>
+        <li><strong>Deep Learning for Medical Imaging</strong> – Published in IEEE Xplore, 2023</li>
+        <li><strong>Natural Language Processing for Indian Languages</strong> – Springer, 2022</li>
+        <li><strong>AI in Education</strong> – Ongoing project</li>
+      </ul>
     </section>
-    <section id="projects" class="section alt-bg">
-      <div class="container">
-        <h2>Featured Projects</h2>
-        <div class="projects-grid">
-          <div class="project-card">
-            <h3>AI for Healthcare</h3>
-            <p>Developed machine learning models for early disease detection and patient risk stratification.</p>
-            <a href="https://dratuljakhar.github.io/projects" target="_blank">Learn More</a>
-          </div>
-          <div class="project-card">
-            <h3>Natural Language Processing Toolkit</h3>
-            <p>Open-source toolkit for text analysis, sentiment detection, and language modeling.</p>
-            <a href="https://github.com/dratuljakhar" target="_blank">View on GitHub</a>
-          </div>
-          <div class="project-card">
-            <h3>Smart Education Platform</h3>
-            <p>AI-powered platform to personalize learning experiences for students.</p>
-            <a href="https://dratuljakhar.github.io/projects" target="_blank">Learn More</a>
-          </div>
-        </div>
-      </div>
+    <section id="teaching">
+      <h2>Teaching</h2>
+      <ul>
+        <li>Data Science & Machine Learning (B.Tech, M.Tech)</li>
+        <li>Python Programming</li>
+        <li>Artificial Intelligence</li>
+        <li>Mentor for student research projects</li>
+      </ul>
     </section>
-    <section id="publications" class="section">
-      <div class="container">
-        <h2>Publications</h2>
-        <ul class="pub-list">
-          <li>
-            <strong>Deep Learning for Text Classification</strong> – <em>IEEE Transactions on Neural Networks</em>, 2024
-          </li>
-          <li>
-            <strong>AI in Healthcare: Opportunities and Challenges</strong> – <em>Springer AI Review</em>, 2023
-          </li>
-          <li>
-            <strong>Sentiment Analysis using BERT</strong> – <em>Elsevier Data Science Journal</em>, 2022
-          </li>
-        </ul>
-        <a href="https://dratuljakhar.github.io/publications" target="_blank" class="cta-btn small">See All Publications</a>
-      </div>
-    </section>
-    <section id="contact" class="section alt-bg">
-      <div class="container">
-        <h2>Contact</h2>
-        <form class="contact-form" action="mailto:atuljakhar@cs.du.ac.in" method="POST" enctype="text/plain">
-          <input type="text" name="name" placeholder="Your Name" required>
-          <input type="email" name="email" placeholder="Your Email" required>
-          <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-          <button type="submit" class="cta-btn">Send Message</button>
-        </form>
-        <div class="social-links">
-          <a href="https://github.com/dratuljakhar" target="_blank">GitHub</a>
-          <a href="https://www.linkedin.com/in/atuljakhar/" target="_blank">LinkedIn</a>
-          <a href="https://dratuljakhar.github.io/" target="_blank">Website</a>
-        </div>
-      </div>
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>
+        <strong>Email:</strong> <a href="mailto:atul.jakhar@dsu.edu.in">atul.jakhar@dsu.edu.in</a><br>
+        <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/atuljakhar" target="_blank">atuljakhar</a><br>
+        <strong>GitHub:</strong> <a href="https://github.com/atuljakhar" target="_blank">atuljakhar</a>
+      </p>
     </section>
   </main>
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 Dr. Atul Jakhar. All rights reserved.</p>
-    </div>
-  </footer>
 </body>
 </html>
