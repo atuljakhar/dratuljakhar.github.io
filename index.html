@@ -119,14 +119,13 @@
       top: 60px;
       z-index: 2;
       pointer-events: none;
+      /* No glow, no shine, just a subtle chalk look */
       text-shadow:
-        0 2px 0 #bfa76f,
-        0 0 8px #fff8,
         1px 1px 0 #222,
-        0 0 6px #fff3;
+        -1px -1px 0 #222,
+        0.5px 0.5px 0 #222;
       letter-spacing: 1px;
-      /* Chalky effect */
-      filter: blur(0.2px) contrast(1.1);
+      filter: none;
     }
     .chalk-math.hide {
       opacity: 0;
@@ -146,12 +145,12 @@
       z-index: 10;
       overflow-y: auto;
       white-space: pre-line;
+      /* No glow, no shine, just a subtle chalk look */
       text-shadow:
-        0 2px 0 #bfa76f,
-        0 0 8px #fff8,
         1px 1px 0 #222,
-        0 0 6px #fff3;
-      filter: blur(0.2px) contrast(1.1);
+        -1px -1px 0 #222,
+        0.5px 0.5px 0 #222;
+      filter: none;
     }
     .board-content.show {
       opacity: 1;
