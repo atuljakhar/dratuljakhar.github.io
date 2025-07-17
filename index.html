@@ -63,31 +63,46 @@
     .main-content {
       display: flex;
       justify-content: center;
-      align-items: flex-start;
+      align-items: flex-end;
       min-height: 60vh;
       width: 100%;
       position: relative;
       z-index: 1;
     }
-    .teacher-area {
+    .podium-area {
       position: relative;
-      width: 220px;
+      width: 240px;
       min-width: 180px;
-      height: 420px;
+      height: 440px;
       display: flex;
       align-items: flex-end;
       margin-right: 20px;
       z-index: 2;
+      flex-direction: column;
+    }
+    .podium-svg {
+      position: absolute;
+      left: 20px;
+      bottom: 0;
+      width: 160px;
+      height: 140px;
+      z-index: 1;
+      pointer-events: none;
+      user-select: none;
     }
     .teacher-img {
-      width: 200px;
-      height: 400px;
+      position: absolute;
+      left: 60px;
+      bottom: 70px;
+      width: 140px;
+      height: 280px;
       object-fit: contain;
       filter: drop-shadow(0 8px 24px #0003);
       user-select: none;
       pointer-events: none;
       background: #fff0;
       border-radius: 12px;
+      z-index: 2;
     }
     .stick {
       position: absolute;
@@ -100,6 +115,7 @@
       transform: rotate(-15deg);
       box-shadow: 0 2px 8px #0002;
       z-index: 3;
+      display: none; /* Hide stick for podium version */
     }
     .board-area {
       position: relative;
@@ -240,8 +256,9 @@
     }
     @media (max-width: 900px) {
       .main-content { flex-direction: column; align-items: center; }
-      .teacher-area { width: 120px; height: 220px; margin-right: 0; }
-      .teacher-img { width: 100px; height: 180px; }
+      .podium-area { width: 120px; height: 220px; margin-right: 0; }
+      .podium-svg { width: 70px; height: 60px; left: 10px; }
+      .teacher-img { width: 60px; height: 110px; left: 35px; bottom: 30px; }
       .stick { left: 80px; top: 110px; width: 60px; height: 7px;}
       .board-area { width: 98vw; height: 320px; }
       .sections-top { gap: 10px; }
@@ -260,10 +277,20 @@
     <button class="section-btn" onclick="showSection('education')">Education</button>
   </div>
   <div class="main-content">
-    <div class="teacher-area">
+    <div class="podium-area">
+      <!-- Podium SVG -->
+      <svg class="podium-svg" viewBox="0 0 160 140">
+        <!-- Podium base -->
+        <rect x="20" y="90" width="120" height="40" rx="10" fill="#bfa76f" stroke="#8d6e3f" stroke-width="4"/>
+        <!-- Podium body -->
+        <rect x="40" y="30" width="80" height="70" rx="12" fill="#e0b97d" stroke="#8d6e3f" stroke-width="4"/>
+        <!-- Podium top -->
+        <ellipse cx="80" cy="35" rx="44" ry="15" fill="#bfa76f" stroke="#8d6e3f" stroke-width="4"/>
+        <!-- Podium shadow -->
+        <ellipse cx="80" cy="130" rx="50" ry="8" fill="#8d6e3f" opacity="0.2"/>
+      </svg>
       <!-- Teacher clipart (public domain, any teacher) -->
       <img class="teacher-img" src="https://openclipart.org/image/400px/282133" alt="Teacher Clipart">
-      <div class="stick"></div>
     </div>
     <div class="board-area">
       <div class="chalk-math" id="chalkMath">
