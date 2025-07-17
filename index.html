@@ -2,179 +2,187 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Dr. [Your Name] - Assistant Professor</title>
+  <title>Dr. A. Sharma | Assistant Professor</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <!-- Animate.css for easy animations -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <style>
     body {
+      background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+      font-family: 'Montserrat', sans-serif;
       margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f7f9fb;
-      color: #1a1a1a;
-    }
-    header {
-      background: linear-gradient(90deg, #23283a 60%, #00ffe7 100%);
-      color: #fff;
-      padding: 40px 0 30px 0;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2.7em;
-      letter-spacing: 1px;
-    }
-    header h2 {
-      margin: 10px 0 0 0;
-      font-weight: 400;
-      font-size: 1.3em;
-      color: #bafff8;
+      color: #222;
+      overflow-x: hidden;
     }
     nav {
-      background: #23283a;
+      background: rgba(255,255,255,0.9);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       display: flex;
-      justify-content: center;
-      gap: 40px;
-      padding: 16px 0;
-      font-size: 1.1em;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      animation: fadeInDown 1s;
     }
     nav a {
-      color: #fff;
+      color: #ff6f61;
       text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
+      margin: 0 1rem;
+      font-weight: 700;
+      transition: color 0.3s;
     }
     nav a:hover {
-      color: #00ffe7;
+      color: #222;
     }
-    section {
-      max-width: 900px;
-      margin: 40px auto;
-      background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 4px 24px rgba(30,40,60,0.09);
-      padding: 36px 30px;
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+      animation: fadeIn 2s;
     }
-    h3 {
-      margin-top: 0;
-      color: #23283a;
-      font-size: 1.5em;
-      border-left: 4px solid #00ffe7;
-      padding-left: 12px;
-      margin-bottom: 18px;
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      color: #ff6f61;
+      animation: bounceIn 1.5s;
     }
-    .profile-img {
-      float: right;
-      margin-left: 30px;
-      margin-bottom: 20px;
-      border-radius: 50%;
-      width: 130px;
-      height: 130px;
-      object-fit: cover;
-      border: 4px solid #00ffe7;
-      box-shadow: 0 2px 12px rgba(0,255,231,0.09);
-    }
-    ul {
-      padding-left: 22px;
+    .hero p {
+      font-size: 1.5rem;
+      color: #333;
+      animation: fadeInUp 2s;
     }
     .cards {
       display: flex;
       flex-wrap: wrap;
-      gap: 24px;
-      margin-top: 12px;
+      justify-content: center;
+      gap: 2rem;
+      margin: 3rem 0;
     }
     .card {
-      flex: 1 1 240px;
-      background: #f3f7fa;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,255,231,0.07);
-      padding: 18px 20px;
-      min-width: 220px;
-      margin-bottom: 14px;
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 2rem;
+      width: 300px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      animation: zoomIn 1s;
     }
-    @media (max-width: 700px) {
-      section { padding: 18px 6px; }
-      .cards { flex-direction: column; }
-      .profile-img { float: none; display: block; margin: 0 auto 20px auto; }
+    .card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
     }
-    footer {
-      text-align: center;
-      padding: 22px 0;
-      color: #5fcfc3;
-      background: #23283a;
-      margin-top: 40px;
-      font-size: 1em;
-      letter-spacing: 1px;
+    .contact-form {
+      background: #fff;
+      border-radius: 1rem;
+      padding: 2rem;
+      max-width: 400px;
+      margin: 2rem auto;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      animation: fadeInUp 1.5s;
     }
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #eee;
+      border-radius: 0.5rem;
+      transition: border 0.3s;
+    }
+    .contact-form input:focus, .contact-form textarea:focus {
+      border: 1.5px solid #ff6f61;
+      outline: none;
+    }
+    .contact-form button {
+      background: #ff6f61;
+      color: #fff;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 0.5rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .contact-form button:hover {
+      background: #fda085;
+    }
+    /* Keyframes for custom animations */
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px);} to { opacity: 1; transform: translateY(0);} }
+    @keyframes fadeIn { from { opacity: 0;} to { opacity: 1;} }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px);} to { opacity: 1; transform: translateY(0);} }
+    @keyframes bounceIn { 0% { transform: scale(0.5);} 60% { transform: scale(1.2);} 100% { transform: scale(1);} }
+    @keyframes zoomIn { from { transform: scale(0.8);} to { transform: scale(1);} }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Dr. [Your Name]</h1>
-    <h2>Assistant Professor, [Your Department], [Your University]</h2>
-  </header>
-  <nav>
-    <a href="#about">About Me</a>
-    <a href="#education">Education</a>
-    <a href="#research">Research</a>
-    <a href="#teaching">Teaching</a>
-    <a href="#contact">Contact</a>
+  <nav class="animate__animated animate__fadeInDown">
+    <div><strong>Dr. A. Sharma</strong></div>
+    <div>
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#publications">Publications</a>
+      <a href="#contact">Contact</a>
+    </div>
   </nav>
-  <section id="about">
-    <img src="https://randomuser.me/api/portraits/men/32.jpg" class="profile-img" alt="Profile photo">
-    <h3>About Me</h3>
-    <p>
-      Driven by curiosity and a passion for discovery, I am an Assistant Professor at [Your University] specializing in [Your Field]. My work bridges rigorous research, innovative teaching, and active mentorship. I am committed to fostering a learning environment that inspires students and advances knowledge in my discipline.
-    </p>
+  <section class="hero animate__animated animate__fadeIn">
+    <h1 class="animate__animated animate__bounceIn">Welcome!</h1>
+    <p class="animate__animated animate__fadeInUp">I am Dr. A. Sharma, Assistant Professor in Computer Science.<br>Passionate about research, teaching, and innovation.</p>
   </section>
-  <section id="education">
-    <h3>Education</h3>
-    <div class="cards">
-      <div class="card">
-        <strong>Ph.D. in [Your Major]</strong><br>
-        [Your University], [Year]<br>
-        <small>Thesis: [Your Thesis Title]</small>
-      </div>
-      <div class="card">
-        <strong>M.S. in [Your Major]</strong><br>
-        [Your University], [Year]
-      </div>
-      <div class="card">
-        <strong>B.S. in [Your Major]</strong><br>
-        [Your University], [Year]
-      </div>
+  <section class="cards">
+    <div class="card animate__animated animate__zoomIn">
+      <h2>Research</h2>
+      <p>Exploring AI, Data Science, and Machine Learning with real-world impact.</p>
+    </div>
+    <div class="card animate__animated animate__zoomIn">
+      <h2>Teaching</h2>
+      <p>Engaging lectures, hands-on projects, and mentorship for future innovators.</p>
+    </div>
+    <div class="card animate__animated animate__zoomIn">
+      <h2>Publications</h2>
+      <p>Published in top journals and conferences. See my latest work below.</p>
     </div>
   </section>
-  <section id="research">
-    <h3>Research</h3>
-    <ul>
-      <li><strong>Focus Areas:</strong> [e.g., Machine Learning, Data Science, Cognitive Neuroscience]</li>
-      <li><strong>Key Projects:</strong> [Project Title] – [Brief description]</li>
-      <li><strong>Recent Publications:</strong>
-        <ul>
-          <li>[Author], "[Paper Title]," <em>Journal Name</em>, Year.</li>
-          <li>[Author], "[Paper Title]," <em>Journal Name</em>, Year.</li>
-        </ul>
-      </li>
-      <li><strong>Grants & Awards:</strong> [Award/Grant Name], [Year]</li>
-    </ul>
+  <section class="contact-form animate__animated animate__fadeInUp" id="contact">
+    <h2>Contact Me</h2>
+    <form>
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea placeholder="Your Message" rows="4" required></textarea>
+      <button type="submit">Send</button>
+    </form>
   </section>
-  <section id="teaching">
-    <h3>Teaching</h3>
-    <ul>
-      <li><strong>Courses Taught:</strong> [Course Name 1], [Course Name 2], [Course Name 3]</li>
-      <li><strong>Teaching Philosophy:</strong> I believe in interactive, student-centered learning that blends theory with real-world application. My goal is to ignite critical thinking and lifelong curiosity.</li>
-      <li><strong>Mentorship:</strong> Guided [number] undergraduate and graduate students in research and career development.</li>
-    </ul>
-  </section>
-  <section id="contact">
-    <h3>Contact</h3>
-    <p>
-      <strong>Email:</strong> <a href="mailto:your.email@university.edu">your.email@university.edu</a><br>
-      <strong>Office:</strong> [Building, Room Number], [University Name]<br>
-      <strong>LinkedIn:</strong> <a href="https://linkedin.com/in/yourprofile" target="_blank">yourprofile</a>
-    </p>
-  </section>
-  <footer>
-    &copy; 2025 Dr. [Your Name] | Assistant Professor | [Your University]
-  </footer>
+  <!-- Optional: Add animated background shapes with JS or CSS -->
+  <script>
+    // Example: Floating circles animation
+    for(let i=0; i<10; i++) {
+      let circle = document.createElement('div');
+      circle.style.position = 'fixed';
+      circle.style.borderRadius = '50%';
+      circle.style.background = 'rgba(255,255,255,0.2)';
+      circle.style.width = circle.style.height = Math.random()*60+40+'px';
+      circle.style.left = Math.random()*100+'vw';
+      circle.style.top = Math.random()*100+'vh';
+      circle.style.zIndex = 0;
+      circle.style.animation = `float${i} 12s infinite alternate ease-in-out`;
+      document.body.appendChild(circle);
+      let keyframes = `
+        @keyframes float${i} {
+          0% { transform: translateY(0);}
+          100% { transform: translateY(${Math.random()*100-50}px);}
+        }
+      `;
+      let styleSheet = document.createElement("style");
+      styleSheet.type = "text/css";
+      styleSheet.innerText = keyframes;
+      document.head.appendChild(styleSheet);
+    }
+  </script>
 </body>
 </html>
