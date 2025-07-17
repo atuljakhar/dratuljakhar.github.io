@@ -62,14 +62,22 @@
       50% { box-shadow: 0 0 32px #ffe082cc, 0 0 24px #fff4;}
       100% { box-shadow: 0 0 16px #ffe08288, 0 0 0 #fff0;}
     }
+    .stage-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      position: relative;
+      z-index: 1;
+      min-height: 500px;
+    }
     .main-content {
       display: flex;
       justify-content: center;
       align-items: flex-end;
-      min-height: 60vh;
-      width: 100%;
       position: relative;
-      z-index: 1;
+      z-index: 2;
+      /* The stage will be below this */
     }
     .podium-area {
       position: relative;
@@ -243,7 +251,38 @@
         transform: rotate(10deg) scale(0.9);
       }
     }
+    /* Stage below the main-content */
+    .stage {
+      width: 900px;
+      max-width: 98vw;
+      height: 50px;
+      background: linear-gradient(180deg, #bfa76f 60%, #8d6e3f 100%);
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+      margin: 0 auto;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      border: 3px solid #8d6e3f;
+      border-bottom: none;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .stage::before {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      bottom: 0;
+      height: 10px;
+      background: rgba(80,60,30,0.18);
+      border-radius: 0 0 20px 20px;
+      z-index: 2;
+    }
     @media (max-width: 900px) {
+      .stage-container { min-height: 350px; }
       .main-content { flex-direction: column; align-items: center; }
       .podium-area { width: 120px; height: 220px; margin-right: 0; }
       .podium-svg { width: 70px; height: 60px; left: 10px; }
@@ -253,6 +292,7 @@
       .section-btn { padding: 10px 14px; font-size: 1rem;}
       .chalk-math, .board-content { font-size: 1rem; left: 20px; right: 20px; top: 30px; bottom: 20px;}
       .duster { width: 40px; height: 24px; }
+      .stage { width: 99vw; height: 30px; border-top-left-radius: 15px; border-top-right-radius: 15px;}
     }
   </style>
 </head>
@@ -264,40 +304,43 @@
     <button class="section-btn" onclick="showSection('research')">Research</button>
     <button class="section-btn" onclick="showSection('education')">Education</button>
   </div>
-  <div class="main-content">
-    <div class="podium-area">
-      <!-- Podium SVG -->
-      <svg class="podium-svg" viewBox="0 0 140 120">
-        <!-- Podium base -->
-        <rect x="10" y="80" width="120" height="30" rx="10" fill="#bfa76f" stroke="#8d6e3f" stroke-width="4"/>
-        <!-- Podium body -->
-        <rect x="30" y="30" width="80" height="60" rx="12" fill="#e0b97d" stroke="#8d6e3f" stroke-width="4"/>
-        <!-- Podium top -->
-        <ellipse cx="70" cy="35" rx="40" ry="12" fill="#bfa76f" stroke="#8d6e3f" stroke-width="4"/>
-        <!-- Podium shadow -->
-        <ellipse cx="70" cy="110" rx="45" ry="7" fill="#8d6e3f" opacity="0.2"/>
-      </svg>
-      <!-- Teacher clipart (public domain, any teacher) -->
-      <img class="teacher-img" src="https://openclipart.org/image/400px/282133" alt="Teacher Clipart">
-    </div>
-    <div class="board-area">
-      <div class="chalk-math" id="chalkMath">
-        { n ∈ ℕ : ∃ a, b ∈ ℤ, n = a² + b² }
-        π(x) ~ x / log(x)
-        gcd(a, b) = gcd(b, a mod b)
-        φ(n) = n ∏_{p|n} (1 - 1/p)
-      </div>
-      <div class="board-content" id="boardContent"></div>
-      <div class="erase-overlay" id="eraseOverlay">
-        <!-- Duster SVG (eraser) -->
-        <svg class="duster" viewBox="0 0 70 40">
-          <rect x="5" y="15" width="60" height="18" rx="6" fill="#e0b97d" stroke="#bfa76f" stroke-width="2"/>
-          <rect x="10" y="20" width="50" height="8" rx="3" fill="#bfa76f" opacity="0.7"/>
-          <ellipse cx="35" cy="32" rx="22" ry="5" fill="#bfa76f" opacity="0.3"/>
-          <rect x="5" y="10" width="60" height="8" rx="4" fill="#fff" opacity="0.18"/>
+  <div class="stage-container">
+    <div class="main-content">
+      <div class="podium-area">
+        <!-- Podium SVG -->
+        <svg class="podium-svg" viewBox="0 0 140 120">
+          <!-- Podium base -->
+          <rect x="10" y="80" width="120" height="30" rx="10" fill="#bfa76f" stroke="#8d6e3f" stroke-width="4"/>
+          <!-- Podium body -->
+          <rect x="30" y="30" width="80" height="60" rx="12" fill="#e0b97d" stroke="#8d6e3f" stroke-width="4"/>
+          <!-- Podium top -->
+          <ellipse cx="70" cy="35" rx="40" ry="12" fill="#bfa76f" stroke="#8d6e3f" stroke-width="4"/>
+          <!-- Podium shadow -->
+          <ellipse cx="70" cy="110" rx="45" ry="7" fill="#8d6e3f" opacity="0.2"/>
         </svg>
+        <!-- Teacher clipart (public domain, any teacher) -->
+        <img class="teacher-img" src="https://openclipart.org/image/400px/282133" alt="Teacher Clipart">
+      </div>
+      <div class="board-area">
+        <div class="chalk-math" id="chalkMath">
+          { n ∈ ℕ : ∃ a, b ∈ ℤ, n = a² + b² }
+          π(x) ~ x / log(x)
+          gcd(a, b) = gcd(b, a mod b)
+          φ(n) = n ∏_{p|n} (1 - 1/p)
+        </div>
+        <div class="board-content" id="boardContent"></div>
+        <div class="erase-overlay" id="eraseOverlay">
+          <!-- Duster SVG (eraser) -->
+          <svg class="duster" viewBox="0 0 70 40">
+            <rect x="5" y="15" width="60" height="18" rx="6" fill="#e0b97d" stroke="#bfa76f" stroke-width="2"/>
+            <rect x="10" y="20" width="50" height="8" rx="3" fill="#bfa76f" opacity="0.7"/>
+            <ellipse cx="35" cy="32" rx="22" ry="5" fill="#bfa76f" opacity="0.3"/>
+            <rect x="5" y="10" width="60" height="8" rx="4" fill="#fff" opacity="0.18"/>
+          </svg>
+        </div>
       </div>
     </div>
+    <div class="stage"></div>
   </div>
   <script>
     const chalkMath = document.getElementById('chalkMath');
