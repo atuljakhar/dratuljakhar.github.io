@@ -1,187 +1,230 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Dr. A. Sharma | Assistant Professor</title>
+  <title>Assistant Professor - Interactive Board</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
-  <!-- Animate.css for easy animations -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <style>
     body {
-      background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
-      font-family: 'Montserrat', sans-serif;
       margin: 0;
-      color: #222;
+      background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
       overflow-x: hidden;
     }
-    nav {
-      background: rgba(255,255,255,0.9);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    .classroom {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      padding: 1rem 2rem;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      animation: fadeInDown 1s;
+      min-height: 100vh;
+      position: relative;
     }
-    nav a {
-      color: #ff6f61;
-      text-decoration: none;
-      margin: 0 1rem;
-      font-weight: 700;
-      transition: color 0.3s;
+    .board-area {
+      position: relative;
+      width: 700px;
+      height: 400px;
+      background: #2d3a2e;
+      border: 8px solid #bfa76f;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
-    nav a:hover {
-      color: #222;
+    .chalk-math {
+      color: #fff;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.3rem;
+      white-space: pre-line;
+      opacity: 1;
+      transition: opacity 0.8s cubic-bezier(.4,2,.6,1);
+      position: absolute;
+      left: 40px;
+      top: 60px;
+      z-index: 2;
+      pointer-events: none;
+      text-shadow: 0 2px 0 #bfa76f, 0 0 8px #fff8;
     }
-    .hero {
+    .chalk-math.hide {
+      opacity: 0;
+    }
+    .thought-bubble {
+      position: absolute;
+      left: 60px;
+      top: 20px;
+      background: #fff;
+      color: #333;
+      padding: 18px 28px;
+      border-radius: 40px 40px 40px 0;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 16px #0002;
+      z-index: 3;
+      animation: bubbleIn 1.2s cubic-bezier(.4,2,.6,1);
+    }
+    @keyframes bubbleIn {
+      0% { transform: scale(0.7) translateY(-30px); opacity: 0;}
+      100% { transform: scale(1) translateY(0); opacity: 1;}
+    }
+    .professor {
+      position: absolute;
+      left: -120px;
+      bottom: 0;
+      width: 120px;
+      height: 220px;
+      z-index: 4;
+      /* Simple cartoon SVG */
+    }
+    .professor svg {
+      width: 100%;
+      height: 100%;
+    }
+    .sections-panel {
+      position: absolute;
+      right: -180px;
+      top: 50%;
+      transform: translateY(-50%);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 60vh;
-      text-align: center;
-      animation: fadeIn 2s;
+      gap: 32px;
+      z-index: 5;
     }
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-      color: #ff6f61;
-      animation: bounceIn 1.5s;
-    }
-    .hero p {
-      font-size: 1.5rem;
-      color: #333;
-      animation: fadeInUp 2s;
-    }
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2rem;
-      margin: 3rem 0;
-    }
-    .card {
-      background: #fff;
-      border-radius: 1rem;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-      padding: 2rem;
-      width: 300px;
-      transition: transform 0.3s, box-shadow 0.3s;
-      animation: zoomIn 1s;
-    }
-    .card:hover {
-      transform: translateY(-10px) scale(1.05);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    }
-    .contact-form {
-      background: #fff;
-      border-radius: 1rem;
-      padding: 2rem;
-      max-width: 400px;
-      margin: 2rem auto;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-      animation: fadeInUp 1.5s;
-    }
-    .contact-form input, .contact-form textarea {
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: 1px solid #eee;
-      border-radius: 0.5rem;
-      transition: border 0.3s;
-    }
-    .contact-form input:focus, .contact-form textarea:focus {
-      border: 1.5px solid #ff6f61;
-      outline: none;
-    }
-    .contact-form button {
-      background: #ff6f61;
-      color: #fff;
-      border: none;
-      padding: 0.75rem 2rem;
-      border-radius: 0.5rem;
+    .section-btn {
+      background: linear-gradient(90deg, #fffbe7 0%, #ffe082 100%);
+      color: #2d3a2e;
       font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      padding: 18px 38px;
+      box-shadow: 0 4px 16px #0002;
       cursor: pointer;
-      transition: background 0.3s;
+      outline: none;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: shine 2.5s infinite linear;
     }
-    .contact-form button:hover {
-      background: #fda085;
+    .section-btn:hover {
+      transform: scale(1.07) rotate(-2deg);
+      box-shadow: 0 8px 32px #ffe08288;
     }
-    /* Keyframes for custom animations */
-    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px);} to { opacity: 1; transform: translateY(0);} }
-    @keyframes fadeIn { from { opacity: 0;} to { opacity: 1;} }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px);} to { opacity: 1; transform: translateY(0);} }
-    @keyframes bounceIn { 0% { transform: scale(0.5);} 60% { transform: scale(1.2);} 100% { transform: scale(1);} }
-    @keyframes zoomIn { from { transform: scale(0.8);} to { transform: scale(1);} }
+    @keyframes shine {
+      0% { box-shadow: 0 0 16px #ffe08288, 0 0 0 #fff0;}
+      50% { box-shadow: 0 0 32px #ffe082cc, 0 0 24px #fff4;}
+      100% { box-shadow: 0 0 16px #ffe08288, 0 0 0 #fff0;}
+    }
+    .board-content {
+      position: absolute;
+      left: 40px;
+      top: 60px;
+      right: 40px;
+      bottom: 40px;
+      color: #fff;
+      font-size: 1.2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.7s cubic-bezier(.4,2,.6,1);
+      z-index: 10;
+      overflow-y: auto;
+      white-space: pre-line;
+      text-shadow: 0 2px 0 #bfa76f, 0 0 8px #fff8;
+    }
+    .board-content.show {
+      opacity: 1;
+      pointer-events: auto;
+      animation: contentIn 0.8s cubic-bezier(.4,2,.6,1);
+    }
+    @keyframes contentIn {
+      0% { opacity: 0; transform: translateY(30px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
+    @media (max-width: 900px) {
+      .classroom { flex-direction: column; }
+      .board-area { width: 98vw; height: 320px; }
+      .sections-panel { right: 10px; top: 100%; transform: none; flex-direction: row; gap: 12px; margin-top: 24px;}
+      .section-btn { padding: 12px 18px; font-size: 1rem;}
+      .professor { left: 0; width: 80px; height: 140px;}
+    }
   </style>
 </head>
 <body>
-  <nav class="animate__animated animate__fadeInDown">
-    <div><strong>Dr. A. Sharma</strong></div>
-    <div>
-      <a href="#about">About</a>
-      <a href="#research">Research</a>
-      <a href="#teaching">Teaching</a>
-      <a href="#publications">Publications</a>
-      <a href="#contact">Contact</a>
+  <div class="classroom">
+    <div class="board-area">
+      <div class="chalk-math" id="chalkMath">
+        { n ∈ ℕ : ∃ a, b ∈ ℤ, n = a² + b² }
+        π(x) ~ x / log(x)
+        gcd(a, b) = gcd(b, a mod b)
+        φ(n) = n ∏_{p|n} (1 - 1/p)
+      </div>
+      <div class="thought-bubble" id="bubble">
+        Hi, How can I help?<br>
+        Please select the section you want to know about.
+      </div>
+      <div class="professor">
+        <!-- Simple SVG cartoon professor with a duggle (thought bubble) -->
+        <svg viewBox="0 0 120 220">
+          <ellipse cx="60" cy="180" rx="40" ry="20" fill="#bfa76f"/>
+          <circle cx="60" cy="90" r="50" fill="#ffe082" stroke="#bfa76f" stroke-width="4"/>
+          <ellipse cx="60" cy="160" rx="30" ry="40" fill="#ffe082" stroke="#bfa76f" stroke-width="4"/>
+          <ellipse cx="45" cy="80" rx="8" ry="12" fill="#fff"/>
+          <ellipse cx="75" cy="80" rx="8" ry="12" fill="#fff"/>
+          <ellipse cx="45" cy="82" rx="3" ry="5" fill="#222"/>
+          <ellipse cx="75" cy="82" rx="3" ry="5" fill="#222"/>
+          <ellipse cx="60" cy="110" rx="12" ry="6" fill="#fff"/>
+          <ellipse cx="60" cy="112" rx="8" ry="3" fill="#bfa76f"/>
+          <rect x="50" y="130" width="20" height="30" rx="8" fill="#bfa76f"/>
+          <rect x="30" y="170" width="15" height="40" rx="7" fill="#ffe082"/>
+          <rect x="75" y="170" width="15" height="40" rx="7" fill="#ffe082"/>
+        </svg>
+      </div>
+      <div class="board-content" id="boardContent"></div>
+      <div class="sections-panel">
+        <button class="section-btn" onclick="showSection('about')">About Me</button>
+        <button class="section-btn" onclick="showSection('education')">Education</button>
+        <button class="section-btn" onclick="showSection('teaching')">Teaching</button>
+        <button class="section-btn" onclick="showSection('research')">Research</button>
+      </div>
     </div>
-  </nav>
-  <section class="hero animate__animated animate__fadeIn">
-    <h1 class="animate__animated animate__bounceIn">Welcome!</h1>
-    <p class="animate__animated animate__fadeInUp">I am Dr. A. Sharma, Assistant Professor in Computer Science.<br>Passionate about research, teaching, and innovation.</p>
-  </section>
-  <section class="cards">
-    <div class="card animate__animated animate__zoomIn">
-      <h2>Research</h2>
-      <p>Exploring AI, Data Science, and Machine Learning with real-world impact.</p>
-    </div>
-    <div class="card animate__animated animate__zoomIn">
-      <h2>Teaching</h2>
-      <p>Engaging lectures, hands-on projects, and mentorship for future innovators.</p>
-    </div>
-    <div class="card animate__animated animate__zoomIn">
-      <h2>Publications</h2>
-      <p>Published in top journals and conferences. See my latest work below.</p>
-    </div>
-  </section>
-  <section class="contact-form animate__animated animate__fadeInUp" id="contact">
-    <h2>Contact Me</h2>
-    <form>
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea placeholder="Your Message" rows="4" required></textarea>
-      <button type="submit">Send</button>
-    </form>
-  </section>
-  <!-- Optional: Add animated background shapes with JS or CSS -->
+  </div>
   <script>
-    // Example: Floating circles animation
-    for(let i=0; i<10; i++) {
-      let circle = document.createElement('div');
-      circle.style.position = 'fixed';
-      circle.style.borderRadius = '50%';
-      circle.style.background = 'rgba(255,255,255,0.2)';
-      circle.style.width = circle.style.height = Math.random()*60+40+'px';
-      circle.style.left = Math.random()*100+'vw';
-      circle.style.top = Math.random()*100+'vh';
-      circle.style.zIndex = 0;
-      circle.style.animation = `float${i} 12s infinite alternate ease-in-out`;
-      document.body.appendChild(circle);
-      let keyframes = `
-        @keyframes float${i} {
-          0% { transform: translateY(0);}
-          100% { transform: translateY(${Math.random()*100-50}px);}
-        }
-      `;
-      let styleSheet = document.createElement("style");
-      styleSheet.type = "text/css";
-      styleSheet.innerText = keyframes;
-      document.head.appendChild(styleSheet);
+    const chalkMath = document.getElementById('chalkMath');
+    const boardContent = document.getElementById('boardContent');
+    const bubble = document.getElementById('bubble');
+    const sections = {
+      about: `👋 Hello! I'm Dr. A. Sharma, Assistant Professor of Mathematics.
+I am passionate about teaching, research, and inspiring students to explore the beauty of numbers and logic.
+My interests include Number Theory, Algebra, and Mathematical Problem Solving.`,
+      education: `🎓 Education
+- Ph.D. in Mathematics, IIT Delhi
+- M.Sc. in Mathematics, University of Delhi
+- B.Sc. (Hons) in Mathematics, University of Delhi`,
+      teaching: `📚 Teaching
+I teach undergraduate and postgraduate courses in:
+- Number Theory
+- Abstract Algebra
+- Real Analysis
+- Discrete Mathematics
+I believe in interactive, example-driven learning and encourage students to ask questions!`,
+      research: `🔬 Research
+My research focuses on:
+- Analytic and Algebraic Number Theory
+- Prime Number Distribution
+- Modular Forms and L-functions
+- Applications of Number Theory in Cryptography
+I have published in leading journals and regularly present at international conferences.`
+    };
+    function showSection(section) {
+      // Wipe out math and bubble
+      chalkMath.classList.add('hide');
+      bubble.style.display = 'none';
+      // Show content with animation
+      boardContent.innerText = sections[section];
+      setTimeout(() => {
+        boardContent.classList.add('show');
+      }, 400);
     }
   </script>
 </body>
