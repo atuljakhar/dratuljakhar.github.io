@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Assistant Professor - Interactive Board</title>
+  <title>Dr. Atul Jakhar</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Chalkboard font from Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
@@ -11,10 +11,21 @@
   <style>
     body {
       margin: 0;
-      background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
-      font-family: 'Montserrat', sans-serif;
       min-height: 100vh;
+      font-family: 'Montserrat', sans-serif;
       overflow-x: hidden;
+      /* Classroom wall background using a free seamless classroom wall texture */
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80') no-repeat center center fixed;
+      background-size: cover;
+      /* fallback color */
+      background-color: #e0eafc;
+    }
+    .bg-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,0.45);
+      z-index: 0;
+      pointer-events: none;
     }
     .sections-top {
       display: flex;
@@ -57,6 +68,8 @@
       align-items: flex-start;
       min-height: 60vh;
       width: 100%;
+      position: relative;
+      z-index: 1;
     }
     .teacher-area {
       position: relative;
@@ -173,6 +186,7 @@
   </style>
 </head>
 <body>
+  <div class="bg-overlay"></div>
   <div class="sections-top">
     <button class="section-btn" onclick="showSection('about')">About Me</button>
     <button class="section-btn" onclick="showSection('teaching')">Teaching</button>
@@ -199,19 +213,18 @@
     const chalkMath = document.getElementById('chalkMath');
     const boardContent = document.getElementById('boardContent');
     const sections = {
-      about: `👋 Hello! I'm Dr. A. Sharma, Assistant Professor of Mathematics.
+      about: `👋 Hello! I'm Dr. Atul Jakhar, Assistant Professor of Mathematics.
 I am passionate about teaching, research, and inspiring students to explore the beauty of numbers and logic.
 My interests include Number Theory, Algebra, and Mathematical Problem Solving.`,
       education: `🎓 Education
-- Ph.D. in Mathematics, IIT Delhi
-- M.Sc. in Mathematics, University of Delhi
-- B.Sc. (Hons) in Mathematics, University of Delhi`,
+- Ph.D. in Mathematics, Central University of Rajasthan
+- Int. M.Sc. in Mathematics, Central University of Rajasthan`,
       teaching: `📚 Teaching
 I teach undergraduate and postgraduate courses in:
-- Number Theory
-- Abstract Algebra
-- Real Analysis
-- Discrete Mathematics
+- Introduction to Differential Equations
+- Partial differential equations
+- COV and I.E.
+- Research Methodology. 
 I believe in interactive, example-driven learning and encourage students to ask questions!`,
       research: `🔬 Research
 My research focuses on:
