@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Atul Jakhar - Postdoctoral Fellow</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --border-color: #e5e7eb;
+            --accent-color: #2563eb;
+            --hover-bg: #f3f4f6;
+            --sidebar-width: 320px;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #111827;
+            --bg-secondary: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+            --hover-bg: #374151;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 2.5rem 2rem;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-color);
+            overflow-y: auto;
+            z-index: 50;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--border-color);
+            padding: 4px;
+        }
+
+        .name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .role {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .location {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        /* Navigation */
+        .nav-menu {
+            list-style: none;
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--hover-bg);
+            color: var(--accent-color);
+        }
+
+        .nav-link i {
+            width: 24px;
+            margin-right: 8px;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 4rem 5rem;
+            max-width: 1000px;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 4rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        /* Content Blocks */
+        .about-text {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Timeline Items (Experience/Education) */
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+            align-items: flex-start;
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding-top: 4px;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .timeline-content h4 {
+            font-size: 1rem;
+            color: var(--accent-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .timeline-content p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Tags/Chips */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border-color);
+            font-weight: 500;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icon {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: color 0.2s;
+        }
+
+        .social-icon:hover {
+            color: var(--accent-color);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 968px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 2rem 1rem;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 2rem 1.5rem;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .timeline-date {
+                color: var(--accent-color);
+                font-size: 0.85rem;
+                margin-bottom: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="profile-header">
+            <img src="https://pbs.twimg.com/profile_images/1855943987443736576/RYk6VW1z_400x400.jpg" alt="Dr. Atul Jakhar" class="avatar">
+            <h1 class="name">Dr. Atul Jakhar</h1>
+            <div class="role">Postdoctoral Fellow</div>
+            <div class="role" style="font-size: 0.9rem;">IIT Madras</div>
+            <div class="location">
+                <i class="fas fa-map-marker-alt"></i> Chennai, India
+            </div>
+            
+            <div class="social-links">
+                <a href="https://scholar.google.com/citations?user=2P_eyfoAAAAJ&hl=en" target="_blank" class="social-icon" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                <a href="https://www.linkedin.com/in/dratuljakhar/" target="_blank" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/atuljakhar" target="_blank" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="mailto:atuljakhar@iitm.ac.in" class="social-icon" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="#about" class="nav-link active"><i class="fas fa-user"></i> About</a></li>
+                <li><a href="#experience" class="nav-link"><i class="fas fa-briefcase"></i> Experience</a></li>
+                <li><a href="#education" class="nav-link"><i class="fas fa-user-graduate"></i> Education</a></li>
+                <li><a href="#research" class="nav-link"><i class="fas fa-flask"></i> Research</a></li>
+                <li><a href="#teaching" class="nav-link"><i class="fas fa-chalkboard-teacher"></i> Teaching</a></li>
+            </ul>
+        </nav>
+
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon" id="theme-icon"></i>
+            <span id="theme-text">Dark Mode</span>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <section id="about">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-text">
+                <p>Hello! I'm <strong>Dr. Atul Jakhar</strong>, currently working as a Postdoctoral Fellow at the <strong>Indian Institute of Technology (IIT) Madras</strong>. My work sits at the intersection of classical mechanics and modern technology, specifically exploring <strong>Computational Fluid Mechanics (CFD)</strong> and the application of Artificial Intelligence in fluid dynamics.</p>
+                <br>
+                <p>My research investigates the dynamic behavior of fluids through numerical methods and simulations, with a particular focus on instability and chaos. Beyond academia, I am a passionate athlete and motivational speaker, believing that the discipline required in sports translates directly to scientific rigor.</p>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2 class="section-title">Academic Positions</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">2024 — Present</div>
+                <div class="timeline-content">
+                    <h3>Postdoctoral Fellow</h3>
+                    <h4>Indian Institute of Technology (IIT) Madras</h4>
+                    <p>Conducting advanced research in fluid dynamics, focusing on AI-driven simulations and stability analysis.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">Previous</div>
+                <div class="timeline-content">
+                    <h3>Assistant Professor</h3>
+                    <h4>Dayananda Sagar University</h4>
+                    <p>Taught undergraduate courses including Linear Algebra, Differential Equations, and Multivariate Calculus. Developed curriculum for "Transformations and Numerical Techniques".</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2 class="section-title">Education</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">2019 — 2024</div>
+                <div class="timeline-content">
+                    <h3>Ph.D. in Mathematics</h3>
+                    <h4>Central University of Rajasthan</h4>
+                    <p><strong>Thesis:</strong> A Study of Instability in Newtonian Fluid.</p>
+                    <p>Focus: Linear and Non-linear instability, Chaos theory.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">2013 — 2018</div>
+                <div class="timeline-content">
+                    <h3>Integrated M.Sc. in Mathematics</h3>
+                    <h4>Central University of Rajasthan</h4>
+                    <p>Majored in heat and mass transfer of free convection and numerical analysis.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="research">
+            <h2 class="section-title">Research Interests</h2>
+            <div class="timeline-item" style="grid-template-columns: 1fr;">
+                <div class="timeline-content">
+                    <p>My research explores the mathematical modeling of fluid systems, focusing on:</p>
+                    <div class="tags">
+                        <span class="tag">Computational Fluid Dynamics</span>
+                        <span class="tag">Linear Instability</span>
+                        <span class="tag">Non-linear Instability</span>
+                        <span class="tag">Chaos Theory</span>
+                        <span class="tag">Physics-Informed Neural Networks (PINNs)</span>
+                        <span class="tag">Numerical Simulations</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem;">
+                <a href="https://scholar.google.com/citations?user=2P_eyfoAAAAJ&hl=en" target="_blank" style="color: var(--accent-color); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                    View Publications on Google Scholar <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+
+        <section id="teaching">
+            <h2 class="section-title">Teaching History</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">2024</div>
+                <div class="timeline-content">
+                    <h3>Linear Algebra and Differential Equations</h3>
+                    <h4>B.Tech Course</h4>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">2024</div>
+                <div class="timeline-content">
+                    <h3>Single and Multivariate Calculus</h3>
+                    <h4>B.Tech Course</h4>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Theme Toggling Logic
+        const htmlEl = document.documentElement;
+        const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
+
+        function toggleTheme() {
+            const currentTheme = htmlEl.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            htmlEl.setAttribute('data-theme', newTheme);
+            
+            if (newTheme === 'dark') {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                themeText.textContent = "Light Mode";
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                themeText.textContent = "Dark Mode";
+            }
+        }
+
+        // Active Link Highlighting
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
