@@ -1,404 +1,475 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Assistant Professor - Interactive Board</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Chalkboard font from Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: 'Montserrat', sans-serif;
-      overflow-x: hidden;
-      /* Brick wall background (seamless, free) */
-      background: url('https://www.transparenttextures.com/patterns/brick-wall.png'), #b36a4c;
-      background-repeat: repeat;
-      background-size: auto;
-      background-attachment: fixed;
-    }
-    .bg-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255,255,255,0.25);
-      z-index: 0;
-      pointer-events: none;
-    }
-    .sections-top {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      width: 100%;
-      margin-top: 32px;
-      margin-bottom: 24px;
-      z-index: 10;
-      position: relative;
-    }
-    .section-btn {
-      background: linear-gradient(90deg, #fffbe7 0%, #ffe082 100%);
-      color: #2d3a2e;
-      font-weight: 700;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 30px;
-      padding: 14px 32px;
-      box-shadow: 0 4px 16px #0002;
-      cursor: pointer;
-      outline: none;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-      animation: shine 2.5s infinite linear;
-    }
-    .section-btn:hover {
-      transform: scale(1.07) rotate(-2deg);
-      box-shadow: 0 8px 32px #ffe08288;
-    }
-    @keyframes shine {
-      0% { box-shadow: 0 0 16px #ffe08288, 0 0 0 #fff0;}
-      50% { box-shadow: 0 0 32px #ffe082cc, 0 0 24px #fff4;}
-      100% { box-shadow: 0 0 16px #ffe08288, 0 0 0 #fff0;}
-    }
-    .stage-container {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      position: relative;
-      z-index: 1;
-      min-height: 500px;
-    }
-    .main-content {
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      position: relative;
-      z-index: 2;
-      /* The stage will be below this */
-    }
-    .podium-area {
-      position: relative;
-      width: 220px;
-      min-width: 180px;
-      height: 420px;
-      display: flex;
-      align-items: flex-end;
-      margin-right: 20px;
-      z-index: 2;
-      flex-direction: column;
-    }
-    .podium-svg {
-      position: absolute;
-      left: 30px;
-      bottom: 0;
-      width: 140px;
-      height: 120px;
-      z-index: 1;
-      pointer-events: none;
-      user-select: none;
-    }
-    .teacher-img {
-      position: absolute;
-      left: 60px;
-      bottom: 80px;
-      width: 110px;
-      height: 220px;
-      object-fit: contain;
-      filter: drop-shadow(0 8px 24px #0003);
-      user-select: none;
-      pointer-events: none;
-      background: #fff0;
-      border-radius: 12px;
-      z-index: 2;
-    }
-    .board-area {
-      position: relative;
-      width: 700px;
-      height: 400px;
-      background: #181818;
-      border: 10px solid #6b4f27;
-      border-radius: 18px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      flex-direction: column;
-      background-image:
-        repeating-linear-gradient(120deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 8px),
-        repeating-linear-gradient(60deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 6px),
-        linear-gradient(120deg, #232323 0%, #181818 100%);
-      overflow: hidden;
-    }
-    .chalk-math, .board-content {
-      color: #fff;
-      font-family: 'Permanent Marker', 'Comic Sans MS', 'Chalkboard', cursive;
-      white-space: pre-line;
-      position: absolute;
-      left: 40px;
-      top: 60px;
-      right: 40px;
-      bottom: 40px;
-      z-index: 2;
-      pointer-events: none;
-      text-shadow:
-        1px 1px 0 #222,
-        -1px -1px 0 #222,
-        0.5px 0.5px 0 #222;
-      letter-spacing: 1px;
-      filter: none;
-      font-size: 1.3rem;
-      opacity: 1;
-      transition: opacity 0.8s cubic-bezier(.4,2,.6,1);
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
-    }
-    .chalk-math.hide, .board-content.hide {
-      opacity: 0;
-      transition: opacity 0.3s cubic-bezier(.4,2,.6,1);
-    }
-    .board-content {
-      opacity: 0;
-      pointer-events: none;
-      z-index: 3;
-      transition: opacity 0.7s cubic-bezier(.4,2,.6,1);
-    }
-    .board-content.show {
-      opacity: 1;
-      pointer-events: auto;
-      animation: contentIn 0.8s cubic-bezier(.4,2,.6,1);
-    }
-    @keyframes contentIn {
-      0% { opacity: 0; transform: translateY(30px);}
-      100% { opacity: 1; transform: translateY(0);}
-    }
-    /* Duster animation overlay */
-    .erase-overlay {
-      position: absolute;
-      left: 0; top: 0; right: 0; bottom: 0;
-      width: 100%; height: 100%;
-      z-index: 10;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.2s;
-      animation: none;
-      overflow: visible;
-    }
-    .erase-overlay.active {
-      opacity: 1;
-      animation: eraseWipe 0.9s cubic-bezier(.4,2,.6,1) forwards;
-    }
-    /* Duster SVG animation */
-    .duster {
-      position: absolute;
-      width: 70px;
-      height: 40px;
-      left: -80px;
-      top: 320px;
-      z-index: 11;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s;
-    }
-    .erase-overlay.active .duster {
-      animation: dusterMove 0.9s cubic-bezier(.4,2,.6,1) forwards;
-      opacity: 1;
-    }
-    @keyframes eraseWipe {
-      0% { clip-path: inset(0 100% 0 0); }
-      80% { clip-path: inset(0 0 0 0); }
-      100% { opacity: 0; clip-path: inset(0 0 0 0);}
-    }
-    @keyframes dusterMove {
-      0% {
-        left: -80px;
-        top: 320px;
-        opacity: 1;
-        transform: rotate(-10deg) scale(1.1);
-      }
-      10% {
-        left: 10px;
-        top: 320px;
-        opacity: 1;
-        transform: rotate(-10deg) scale(1.1);
-      }
-      30% {
-        left: 200px;
-        top: 250px;
-        opacity: 1;
-        transform: rotate(-5deg) scale(1.05);
-      }
-      60% {
-        left: 400px;
-        top: 180px;
-        opacity: 1;
-        transform: rotate(0deg) scale(1);
-      }
-      80% {
-        left: 600px;
-        top: 120px;
-        opacity: 1;
-        transform: rotate(5deg) scale(1);
-      }
-      100% {
-        left: 800px;
-        top: 80px;
-        opacity: 0;
-        transform: rotate(10deg) scale(0.9);
-      }
-    }
-    /* Stage below the main-content */
-    .stage {
-      width: 900px;
-      max-width: 98vw;
-      height: 50px;
-      background: linear-gradient(180deg, #bfa76f 60%, #8d6e3f 100%);
-      border-top-left-radius: 30px;
-      border-top-right-radius: 30px;
-      margin: 0 auto;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-      border: 3px solid #8d6e3f;
-      border-bottom: none;
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-    }
-    .stage::before {
-      content: "";
-      display: block;
-      position: absolute;
-      left: 10%;
-      right: 10%;
-      bottom: 0;
-      height: 10px;
-      background: rgba(80,60,30,0.18);
-      border-radius: 0 0 20px 20px;
-      z-index: 2;
-    }
-    @media (max-width: 900px) {
-      .stage-container { min-height: 350px; }
-      .main-content { flex-direction: column; align-items: center; }
-      .podium-area { width: 120px; height: 220px; margin-right: 0; }
-      .podium-svg { width: 70px; height: 60px; left: 10px; }
-      .teacher-img { width: 60px; height: 110px; left: 35px; bottom: 30px; }
-      .board-area { width: 98vw; height: 320px; }
-      .sections-top { gap: 10px; }
-      .section-btn { padding: 10px 14px; font-size: 1rem;}
-      .chalk-math, .board-content { font-size: 1rem; left: 20px; right: 20px; top: 30px; bottom: 20px;}
-      .duster { width: 40px; height: 24px; }
-      .stage { width: 99vw; height: 30px; border-top-left-radius: 15px; border-top-right-radius: 15px;}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Atul Jakhar | Postdoc Fellow, IIT Madras</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #800000; /* IIT Madras Maroon-ish tone */
+            --secondary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-light: #f8f9fa;
+            --text-dark: #333;
+            --text-light: #666;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 4rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .profile-img-container {
+            position: relative;
+        }
+
+        .profile-img {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--white);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .hero-text h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-color);
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            background: #600000;
+            transform: translateY(-2px);
+        }
+
+        /* Generic Section Styles */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        /* Research Section */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            background: #eef2f7;
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Education Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: #ddd;
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            padding-left: 3rem;
+            position: relative;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 11px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            border: 4px solid var(--white);
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-info {
+            text-align: center;
+        }
+
+        .contact-info i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .profile-img {
+                width: 200px;
+                height: 200px;
+                margin: 0 auto;
+            }
+
+            .nav-links {
+                display: none; /* Add JS toggle menu for better mobile experience */
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            
+            .social-icons {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="bg-overlay"></div>
-  <div class="sections-top">
-    <button class="section-btn" onclick="showSection('about')">About Me</button>
-    <button class="section-btn" onclick="showSection('teaching')">Teaching</button>
-    <button class="section-btn" onclick="showSection('research')">Research</button>
-    <button class="section-btn" onclick="showSection('education')">Education</button>
-  </div>
-  <div class="stage-container">
-    <div class="main-content">
-      <div class="podium-area">
-        <!-- Podium SVG -->
-        <svg class="podium-svg" viewBox="0 0 140 120">
-          <!-- Podium base -->
-          <rect x="10" y="80" width="120" height="30" rx="10" fill="#bfa76f" stroke="#8d6e3f" stroke-width="4"/>
-          <!-- Podium body -->
-          <rect x="30" y="30" width="80" height="60" rx="12" fill="#e0b97d" stroke="#8d6e3f" stroke-width="4"/>
-          <!-- Podium top -->
-          <ellipse cx="70" cy="35" rx="40" ry="12" fill="#bfa76f" stroke="#8d6e3f" stroke-width="4"/>
-          <!-- Podium shadow -->
-          <ellipse cx="70" cy="110" rx="45" ry="7" fill="#8d6e3f" opacity="0.2"/>
-        </svg>
-        <!-- Teacher clipart (public domain, any teacher) -->
-        <img class="teacher-img" src="https://openclipart.org/image/400px/282133" alt="Teacher Clipart">
-      </div>
-      <div class="board-area">
-        <div class="chalk-math" id="chalkMath">
-          { n ∈ ℕ : ∃ a, b ∈ ℤ, n = a² + b² }
-          π(x) ~ x / log(x)
-          gcd(a, b) = gcd(b, a mod b)
-          φ(n) = n ∏_{p|n} (1 - 1/p)
-        </div>
-        <div class="board-content" id="boardContent"></div>
-        <div class="erase-overlay" id="eraseOverlay">
-          <!-- Duster SVG (eraser) -->
-          <svg class="duster" viewBox="0 0 70 40">
-            <rect x="5" y="15" width="60" height="18" rx="6" fill="#e0b97d" stroke="#bfa76f" stroke-width="2"/>
-            <rect x="10" y="20" width="50" height="8" rx="3" fill="#bfa76f" opacity="0.7"/>
-            <ellipse cx="35" cy="32" rx="22" ry="5" fill="#bfa76f" opacity="0.3"/>
-            <rect x="5" y="10" width="60" height="8" rx="4" fill="#fff" opacity="0.18"/>
-          </svg>
-        </div>
-      </div>
-    </div>
-    <div class="stage"></div>
-  </div>
-  <script>
-    const chalkMath = document.getElementById('chalkMath');
-    const boardContent = document.getElementById('boardContent');
-    const eraseOverlay = document.getElementById('eraseOverlay');
-    let currentSection = null;
-    const sections = {
-      about: `👋 Hello! I'm Dr. A. Sharma, Assistant Professor of Mathematics.
-I am passionate about teaching, research, and inspiring students to explore the beauty of numbers and logic.
-My interests include Number Theory, Algebra, and Mathematical Problem Solving.`,
-      education: `🎓 Education
-- Ph.D. in Mathematics, IIT Delhi
-- M.Sc. in Mathematics, University of Delhi
-- B.Sc. (Hons) in Mathematics, University of Delhi`,
-      teaching: `📚 Teaching
-I teach undergraduate and postgraduate courses in:
-- Number Theory
-- Abstract Algebra
-- Real Analysis
-- Discrete Mathematics
-I believe in interactive, example-driven learning and encourage students to ask questions!`,
-      research: `🔬 Research
-My research focuses on:
-- Analytic and Algebraic Number Theory
-- Prime Number Distribution
-- Modular Forms and L-functions
-- Applications of Number Theory in Cryptography
-I have published in leading journals and regularly present at international conferences.`
-    };
 
-    function showSection(section) {
-      if (currentSection === section) return;
-      // Hide both contents
-      chalkMath.classList.add('hide');
-      boardContent.classList.remove('show');
-      boardContent.classList.add('hide');
-      // Start erase animation
-      eraseOverlay.classList.remove('active');
-      void eraseOverlay.offsetWidth; // force reflow for restart
-      eraseOverlay.classList.add('active');
-      setTimeout(() => {
-        // After erase, show new content
-        boardContent.innerText = sections[section];
-        boardContent.classList.remove('hide');
-        boardContent.classList.add('show');
-        chalkMath.classList.add('hide');
-        eraseOverlay.classList.remove('active');
-        currentSection = section;
-      }, 900);
-    }
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">Dr. Atul Jakhar</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
 
-    // On first load, show chalkMath
-    window.onload = function() {
-      chalkMath.classList.remove('hide');
-      boardContent.classList.remove('show');
-      boardContent.classList.add('hide');
-      currentSection = null;
-    };
-  </script>
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="profile-img-container">
+                <img src="https://pbs.twimg.com/profile_images/1855943987443736576/RYk6VW1z_400x400.jpg" alt="Dr. Atul Jakhar" class="profile-img">
+            </div>
+            <div class="hero-text">
+                <h1>Dr. Atul Jakhar</h1>
+                <h2>Postdoctoral Fellow @ IIT Madras</h2>
+                <p>
+                    Specializing in <strong>Computational Fluid Mechanics</strong>, AI in Fluid Dynamics, and Chaos Theory. 
+                    I explore the dynamic behavior of fluids through numerical methods and simulations, merging classical mechanics with modern artificial intelligence.
+                </p>
+                <p>
+                    <em>Motivational Speaker | Athlete | Researcher</em>
+                </p>
+                <div class="social-icons">
+                    <a href="https://scholar.google.com/citations?user=2P_eyfoAAAAJ&hl=en" target="_blank" class="social-icon" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                    <a href="https://www.linkedin.com/in/dratuljakhar/" target="_blank" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="mailto:atuljakhar@iitm.ac.in" class="social-icon" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="https://github.com/atuljakhar" target="_blank" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+                <a href="#contact" class="btn">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="research">
+        <div class="section-title">
+            <h2>Research Areas</h2>
+        </div>
+        <div class="research-grid">
+            <div class="card">
+                <i class="fas fa-wind fa-2x" style="color:var(--primary-color); margin-bottom:1rem;"></i>
+                <h3>Fluid Mechanics</h3>
+                <p>Investigation of linear and non-linear instability in fluid systems. Studying the transition to turbulence and chaotic behaviors in Newtonian fluids.</p>
+                <div class="tags">
+                    <span class="tag">Instability</span>
+                    <span class="tag">Chaos</span>
+                    <span class="tag">Dynamics</span>
+                </div>
+            </div>
+            <div class="card">
+                <i class="fas fa-laptop-code fa-2x" style="color:var(--primary-color); margin-bottom:1rem;"></i>
+                <h3>Computational Methods</h3>
+                <p>Developing and applying numerical simulations to solve complex fluid flow problems. Expertise in high-fidelity simulations and data analysis.</p>
+                <div class="tags">
+                    <span class="tag">CFD</span>
+                    <span class="tag">Numerical Methods</span>
+                    <span class="tag">Simulation</span>
+                </div>
+            </div>
+            <div class="card">
+                <i class="fas fa-brain fa-2x" style="color:var(--primary-color); margin-bottom:1rem;"></i>
+                <h3>AI in Science</h3>
+                <p>Interdisciplinary research at the intersection of AI and Physics. Utilizing Physics-Informed Neural Networks (PINNs) to enhance fluid flow predictions.</p>
+                <div class="tags">
+                    <span class="tag">PINNs</span>
+                    <span class="tag">Machine Learning</span>
+                    <span class="tag">AI4Science</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" style="background-color: #fff;">
+        <div class="section-title">
+            <h2>Academic Background</h2>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">2019 - 2024</div>
+                <h3>Ph.D. in Mathematics</h3>
+                <h4>Central University of Rajasthan</h4>
+                <p><strong>Thesis:</strong> A Study of Instability in Newtonian Fluid</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">2013 - 2018</div>
+                <h3>Integrated M.Sc. in Mathematics</h3>
+                <h4>Central University of Rajasthan</h4>
+                <p>Focused on heat and mass transfer of free convection and numerical techniques.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="section-title">
+            <h2>Contact Me</h2>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Location</h3>
+                <p>Indian Institute of Technology (IIT) Madras<br>Chennai, Tamil Nadu, India</p>
+            </div>
+            <div class="contact-info">
+                <i class="fas fa-envelope"></i>
+                <h3>Email</h3>
+                <p><a href="mailto:atuljakhar@iitm.ac.in" style="color: var(--text-dark); text-decoration: none;">atuljakhar@iitm.ac.in</a></p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Dr. Atul Jakhar. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 </html>
